@@ -22,7 +22,7 @@ import random
 # Initialize Colorama
 init()
 
-ASCII_ART = r"""
+ASCII_ART = """
 __     __   _ _ 
 \ \   / /__(_) |
  \ \ / / _ \ | |
