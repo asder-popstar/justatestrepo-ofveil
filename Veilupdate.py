@@ -127,10 +127,15 @@ def main():
             wipe_system()
         elif choice == '12':
             print("Exiting...")
-            input("Press Enter to close...")  # Prevents auto-closing
+            input("\nPress Enter to close the program...")  # Ensures window stays open
             sys.exit()
         else:
             print("Invalid option. Try again.")
 
 if __name__ == "__main__":
-    main()
+    if sys.stdin.isatty():
+        main()
+    else:
+        print("\n[!] Double-click detected. Keeping window open.")
+        main()
+        input("\nPress Enter to close the program...")
