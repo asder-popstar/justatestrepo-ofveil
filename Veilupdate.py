@@ -23,6 +23,14 @@ import random
 # Initialize Colorama
 init()
 
+ASCII_ART = f"""
+{Fore.GREEN}__     __   _ _ 
+\ \   / /__(_) |
+ \ \ / / _ \ | |
+  \ V /  __/ | |
+   \_/ \___|_|_|{Style.RESET_ALL}
+"""
+
 def secure_file_transfer(file_path, destination_ip):
     key = os.urandom(32)
     cipher = AES.new(key, AES.MODE_CBC)
@@ -70,6 +78,7 @@ def encrypted_voice_call():
 
 def display_menu():
     os.system("cls" if os.name == "nt" else "clear")
+    print(ASCII_ART)
     print(f"{Fore.CYAN}\n[ Secure Communication Suite ]{Style.RESET_ALL}")
     print("1. Start as Server")
     print("2. Start as Client")
@@ -119,10 +128,9 @@ def main():
         elif choice == '12':
             print("Exiting...")
             input("Press Enter to close...")  # Prevents auto-closing
-            break
+            sys.exit()
         else:
             print("Invalid option. Try again.")
 
 if __name__ == "__main__":
-    os.system("pause")  # Keeps window open when double-clicked
     main()
