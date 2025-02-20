@@ -22,12 +22,12 @@ import random
 # Initialize Colorama
 init()
 
-ASCII_ART = f"""
-{Fore.GREEN}__     __   _ _ 
+ASCII_ART = r"""
+__     __   _ _ 
 \ \   / /__(_) |
  \ \ / / _ \ | |
   \ V /  __/ | |
-   \_/ \___|_|_|{Style.RESET_ALL}
+   \_/ \___|_|_|
 """
 
 def server():
