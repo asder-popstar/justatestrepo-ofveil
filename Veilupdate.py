@@ -75,12 +75,11 @@ def display_menu():
     print("9. Disable Tracking")
     print("10. Secure Wipe System")
     print("11. Exit")
-    choice = input("Select an option (1-11): ")
-    return choice
+    return input("Select an option (1-11): ")
 
 def main():
-    while True:
-        try:
+    try:
+        while True:
             choice = display_menu()
             if choice == '1':
                 server()
@@ -112,11 +111,12 @@ def main():
                 break
             else:
                 print("Invalid option. Try again.")
-        except Exception as e:
-            print(f"\n[!] An error occurred: {e}\n")
-        
-    input("\nPress Enter to close the program...")  # Ensures the window stays open
-    sys.exit()
+    except Exception as e:
+        print(f"\n[!] An error occurred: {e}\n")
+    finally:
+        print("\n[+] Program execution complete. Press Enter to exit.")
+        input()  # Ensures the window stays open
+        sys.exit()
 
 if __name__ == "__main__":
     main()
