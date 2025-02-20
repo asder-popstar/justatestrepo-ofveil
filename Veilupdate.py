@@ -118,9 +118,11 @@ def main():
             wipe_system()
         elif choice == '12':
             print("Exiting...")
+            input("Press Enter to close...")  # Prevents auto-closing
             break
         else:
             print("Invalid option. Try again.")
 
 if __name__ == "__main__":
+    os.system("pause")  # Keeps window open when double-clicked
     main()
