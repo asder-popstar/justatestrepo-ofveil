@@ -10,9 +10,7 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from colorama import Fore, Style, init
 import pyaudio
-from stegano 
-
-
+from stegano import lsb
 import torpy
 import secrets
 import hashlib
@@ -32,50 +30,26 @@ ASCII_ART = f"""
    \_/ \___|_|_|{Style.RESET_ALL}
 """
 
-def secure_file_transfer(file_path, destination_ip):
-    key = os.urandom(32)
-    cipher = AES.new(key, AES.MODE_CBC)
-    with open(file_path, "rb") as f:
-        data = f.read()
-    encrypted_data = cipher.encrypt(pad(data, AES.block_size))
-    with open(file_path + ".enc", "wb") as f:
-        f.write(cipher.iv + encrypted_data)
-    print("[+] File encrypted and ready for transfer.")
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect((destination_ip, 9998))
-        s.sendall(cipher.iv + encrypted_data)
-    print("[+] File sent successfully.")
+def server():
+    print("[+] Server function placeholder. Implement server logic here.")
 
-def stealth_messaging_hide(message, image_path):
-    secret = lsb.hide(image_path, message)
-    secret.save("stegano.png")
-    print("[+] Message hidden in stegano.png")
+def client(ip):
+    print(f"[+] Connecting to server at {ip}. Implement client logic here.")
 
-def stealth_messaging_reveal(image_path):
-    message = lsb.reveal(image_path)
-    print(f"[+] Hidden Message: {message}")
+def tor_setup():
+    print("[+] Tor setup placeholder. Implement Tor routing logic here.")
 
-def encrypted_voice_call():
-    FORMAT = pyaudio.paInt16
-    CHANNELS = 1
-    RATE = 44100
-    CHUNK = 1024
-    audio = pyaudio.PyAudio()
-    stream = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
-    print("[+] Recording encrypted voice call...")
-    frames = []
-    for _ in range(0, int(RATE / CHUNK * 5)):
-        data = stream.read(CHUNK)
-        frames.append(data)
-    stream.stop_stream()
-    stream.close()
-    audio.terminate()
-    with wave.open("voice_chat.wav", "wb") as wf:
-        wf.setnchannels(CHANNELS)
-        wf.setsampwidth(audio.get_sample_size(FORMAT))
-        wf.setframerate(RATE)
-        wf.writeframes(b"".join(frames))
-    print("[+] Voice chat saved and encrypted.")
+def spoof_mac():
+    print("[+] MAC spoofing placeholder. Implement MAC spoofing logic here.")
+
+def randomize_hostname():
+    print("[+] Hostname randomization placeholder. Implement hostname logic here.")
+
+def disable_tracking():
+    print("[+] Tracking prevention placeholder. Implement tracking disable logic here.")
+
+def wipe_system():
+    print("[+] Secure wipe placeholder. Implement secure file deletion here.")
 
 def display_menu():
     os.system("cls" if os.name == "nt" else "clear")
