@@ -10,8 +10,9 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from colorama import Fore, Style, init
 import pyaudio
-from stegano import lsb
-import bluetooth
+from stegano 
+
+
 import torpy
 import secrets
 import hashlib
@@ -85,7 +86,6 @@ def display_menu():
     print("3. Secure File Transfer")
     print("4. Stealth Messaging (Steganography)")
     print("5. Encrypted Voice Call")
-    print("6. Mesh Network Messaging")
     print("7. Enable Tor Anonymity")
     print("8. Spoof MAC Address")
     print("9. Randomize Hostname")
@@ -113,8 +113,6 @@ def main():
             stealth_messaging_hide(message, image_path)
         elif choice == '5':
             encrypted_voice_call()
-        elif choice == '6':
-            mesh_network()
         elif choice == '7':
             tor_setup()
         elif choice == '8':
