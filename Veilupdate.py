@@ -23,44 +23,53 @@ import random
 # Initialize Colorama
 init()
 
-def secure_wipe(directory):
-    print(f"[+] Securely wiping {directory}...")
-    for root, dirs, files in os.walk(directory, topdown=False):
-        for name in files:
-            file_path = os.path.join(root, name)
-            try:
-                with open(file_path, "ba+") as f:
-                    length = os.path.getsize(file_path)
-                    f.write(os.urandom(length))
-                os.remove(file_path)
-                print(f"[+] Wiped: {file_path}")
-            except Exception as e:
-                print(f"[-] Error wiping {file_path}: {e}")
-        for name in dirs:
-            dir_path = os.path.join(root, name)
-            try:
-                os.rmdir(dir_path)
-                print(f"[+] Deleted Directory: {dir_path}")
-            except Exception as e:
-                print(f"[-] Error deleting {dir_path}: {e}")
+def secure_file_transfer(file_path, destination_ip):
+    key = os.urandom(32)
+    cipher = AES.new(key, AES.MODE_CBC)
+    with open(file_path, "rb") as f:
+        data = f.read()
+    encrypted_data = cipher.encrypt(pad(data, AES.block_size))
+    with open(file_path + ".enc", "wb") as f:
+        f.write(cipher.iv + encrypted_data)
+    print("[+] File encrypted and ready for transfer.")
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((destination_ip, 9998))
+        s.sendall(cipher.iv + encrypted_data)
+    print("[+] File sent successfully.")
 
-def wipe_system():
-    directories = ["~/Downloads", "~/Pictures", "~/Documents", "~/Logs", "~/Desktop"]
-    for directory in directories:
-        secure_wipe(os.path.expanduser(directory))
-    print("[+] System wipe completed.")
+def stealth_messaging_hide(message, image_path):
+    secret = lsb.hide(image_path, message)
+    secret.save("stegano.png")
+    print("[+] Message hidden in stegano.png")
 
-ASCII_ART = f"""
-{Fore.GREEN}__     __   _ _ 
-\ \   / /__(_) |
- \ \ / / _ \ | |
-  \ V /  __/ | |
-   \_/ \___|_|_|{Style.RESET_ALL}
-"""
+def stealth_messaging_reveal(image_path):
+    message = lsb.reveal(image_path)
+    print(f"[+] Hidden Message: {message}")
+
+def encrypted_voice_call():
+    FORMAT = pyaudio.paInt16
+    CHANNELS = 1
+    RATE = 44100
+    CHUNK = 1024
+    audio = pyaudio.PyAudio()
+    stream = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
+    print("[+] Recording encrypted voice call...")
+    frames = []
+    for _ in range(0, int(RATE / CHUNK * 5)):
+        data = stream.read(CHUNK)
+        frames.append(data)
+    stream.stop_stream()
+    stream.close()
+    audio.terminate()
+    with wave.open("voice_chat.wav", "wb") as wf:
+        wf.setnchannels(CHANNELS)
+        wf.setsampwidth(audio.get_sample_size(FORMAT))
+        wf.setframerate(RATE)
+        wf.writeframes(b"".join(frames))
+    print("[+] Voice chat saved and encrypted.")
 
 def display_menu():
     os.system("cls" if os.name == "nt" else "clear")
-    print(ASCII_ART)
     print(f"{Fore.CYAN}\n[ Secure Communication Suite ]{Style.RESET_ALL}")
     print("1. Start as Server")
     print("2. Start as Client")
@@ -86,11 +95,15 @@ def main():
             server_ip = input("Enter server IP: ")
             client(server_ip)
         elif choice == '3':
-            print("[+] Secure File Transfer Coming Soon...")
+            file_path = input("Enter file path to transfer: ")
+            destination_ip = input("Enter destination IP: ")
+            secure_file_transfer(file_path, destination_ip)
         elif choice == '4':
-            print("[+] Stealth Messaging Coming Soon...")
+            image_path = input("Enter image filename: ")
+            message = input("Enter message to hide: ")
+            stealth_messaging_hide(message, image_path)
         elif choice == '5':
-            print("[+] Encrypted Voice Call Coming Soon...")
+            encrypted_voice_call()
         elif choice == '6':
             mesh_network()
         elif choice == '7':
